@@ -1,0 +1,12 @@
+.apartment {
+    padding: var(--spacing-small);
+    background-color: var(--color-item);
+}
+
+.name {
+    font-size: var(--font-medium);
+}
+
+.size {
+    font-size: var(--font-small);
+}

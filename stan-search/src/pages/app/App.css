@@ -1,0 +1,38 @@
+.root {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--color-background);
+}
+
+:root {
+  --color-primary: #282c34;
+  --color-background: #e4e4e4;
+  --color-title: blue;
+  --color-item: white;
+
+  --spacing-atomic: 1px;
+  --spacing-border: 2px;
+  --spacing-tiny: 4px;
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+  --spacing-big: 32px;
+  --spacing-huge: 64px;
+
+  --font-small: 12px;
+  --font-medium: 16px;
+  --font-large: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-huge);
+  font-size: var(--font-large);
+  color: var(--color-title);
+}
+
+.content {
+  font-size: var(--font-medium);
+  color: var(--color-primary);
+}
