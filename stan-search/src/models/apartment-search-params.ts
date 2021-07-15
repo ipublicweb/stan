@@ -1,9 +1,10 @@
 export class ApartmentSearchParams {
     priceFrom: number;
-    sizeFrom: number;
+    priceTo: number;
+    maxResultCount: number = 100
 
-    constructor(priceFrom: number, sizeFrom: number) {
+    constructor(priceFrom: number, priceTo: number) {
         this.priceFrom = priceFrom;
-        this.sizeFrom = sizeFrom;
+        this.priceTo = priceTo;
     }
 }

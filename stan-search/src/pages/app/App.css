@@ -1,14 +1,17 @@
 .root {
-  height: 100vh;
-  width: 100vw;
+  height: 480px;
+  width: 760px;
   background-color: var(--color-background);
+  box-shadow: 1px 1px 5px 5px var(--color-background-filters);
+  margin: var(--spacing-medium);
 }
 
 :root {
-  --color-primary: #282c34;
-  --color-background: #e4e4e4;
-  --color-title: blue;
-  --color-item: white;
+  --color-primary: black;
+  --color-background: rgb(255,255,255);
+  --color-background-filters: rgb(252,232,230);
+  --color-background-apartments: rgb(245,247,247);
+  --color-title: rgb(24,142,236);
 
   --spacing-atomic: 1px;
   --spacing-border: 2px;

@@ -1,14 +1,14 @@
 import { DashboardProps } from "./dashboard.props";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import './dashboard.css';
 import { ApartmentList } from "../apartment-list/apartment-list";
-import { IntegrationServices } from "../../services/api/integrations/integration-services";
 import { Apartment, ApartmentSearchParams } from "../../models";
+import { IntegrationServices } from "../../services/api/integrations/integration-services";
 
-const APARTMENT_SEARCH_PARAMS: ApartmentSearchParams = {
-    priceFrom: 80 * 1000,
-    sizeFrom: 75,
-}
+const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
+    50 * 1000,
+    100 * 1000,
+);
 
 /**
  * Dashboard
@@ -16,20 +16,15 @@ const APARTMENT_SEARCH_PARAMS: ApartmentSearchParams = {
 export const Dashboard = function DashboardComponent(props: DashboardProps) {
     const [ getApartments, setApartments ] = useState<Apartment[]>([])
 
-    useEffect(() => {
-        let mounted = true;
-        IntegrationServices.cityExpert
-            .findApartments(APARTMENT_SEARCH_PARAMS).then(apartments => {
-            if (mounted) {
+    const onSearch = () => {
+        IntegrationServices.cityExpert.findApartments(APARTMENT_SEARCH_PARAMS)
+            .then(apartments => {
                 setApartments(apartments)
-            }
-        })
-        return () => {
-            mounted = false
-        };
-    }, [])
+            })
+    }
 
     return <div className={"dashboard"}>
+        <button className={"searchButton"} onClick={onSearch}/>
         <ApartmentList apartments={getApartments}/>
     </div>
 }

@@ -1,6 +1,6 @@
 .apartment {
     padding: var(--spacing-small);
-    background-color: var(--color-item);
+    background-color: var(--color-background-apartments);
 }
 
 .name {

@@ -3,3 +3,8 @@
     text-align: center;
     color: var(--color-primary);
 }
+
+.searchButton {
+    width: 70px;
+    height: 40px;
+}
