@@ -4,6 +4,7 @@ import './dashboard.css';
 import { ApartmentList } from "../apartment-list/apartment-list";
 import { Apartment, ApartmentSearchParams } from "../../models";
 import { IntegrationServices } from "../../services/api/integrations/integration-services";
+import { Button } from "@material-ui/core";
 
 const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
     50 * 1000,
@@ -24,7 +25,11 @@ export const Dashboard = function DashboardComponent(props: DashboardProps) {
     }
 
     return <div className={"dashboard"}>
-        <button className={"searchButton"} onClick={onSearch}/>
+        <Button variant="contained"
+                color={"primary"}
+                onClick={onSearch}>
+            Search
+        </Button>
         <ApartmentList apartments={getApartments}/>
     </div>
 }

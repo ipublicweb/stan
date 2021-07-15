@@ -6,11 +6,13 @@ import { INTEGRATION_VERSION } from "../../services/api/integrations/integration
 function App() {
     return (
         <div className="root">
-            <div className="header">
-                ...STAN SEARCH PROJECT... (integration version: {INTEGRATION_VERSION})
-            </div>
-            <div className="content">
-                <Dashboard/>
+            <div className="container">
+                <div className="header">
+                    ...STAN SEARCH PROJECT... (integration version: {INTEGRATION_VERSION})
+                </div>
+                <div className="content">
+                    <Dashboard/>
+                </div>
             </div>
         </div>
     );

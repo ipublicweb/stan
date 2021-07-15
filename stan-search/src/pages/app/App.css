@@ -1,6 +1,11 @@
 .root {
-  height: 480px;
-  width: 760px;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 750px;
+  height: 550px;
   background-color: var(--color-background);
   box-shadow: 1px 1px 5px 5px var(--color-background-filters);
   margin: var(--spacing-medium);
