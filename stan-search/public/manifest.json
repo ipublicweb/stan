@@ -9,7 +9,7 @@
     "default_popup": "index.html",
     "default_title": "Open the popup"
   },
-  "content_security_policy": "script-src 'self' 'sha256-ZwCJMzUOXhpXYaSYy+nUe5Qz6VNDEJ7tbRojj8zMnKk='; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'sha256-WmuqtOrPjeZIbVndc2gBVs5YR8VEjkxhb2SxoqgW0+k='; object-src 'self'",
   "permissions": [
     "<all_urls>","webRequest","webRequestBlocking"
   ],

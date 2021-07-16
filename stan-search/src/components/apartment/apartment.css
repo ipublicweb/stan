@@ -1,12 +1,49 @@
 .apartment {
-    padding: var(--spacing-small);
+    width: 336px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--spacing-tiny);
+    border-style: groove;
     background-color: var(--color-background-apartments);
 }
 
-.name {
+.details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.street {
     font-size: var(--font-medium);
 }
 
-.size {
+.structure {
     font-size: var(--font-small);
+}
+
+.floors {
+    font-size: var(--font-small);
+}
+
+.floor {
+    font-weight: bold;
+}
+
+.price {
+    font-size: var(--font-medium);
+}
+
+.spacer {
+    width: var(--spacing-small);
+}
+
+.polygons {
+    font-size: var(--font-tiny);
 }

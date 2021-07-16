@@ -8,7 +8,7 @@ function App() {
         <div className="root">
             <div className="container">
                 <div className="header">
-                    ...STAN SEARCH PROJECT... (integration version: {INTEGRATION_VERSION})
+                    ...STAN SEARCH PROJECT...
                 </div>
                 <div className="content">
                     <Dashboard/>

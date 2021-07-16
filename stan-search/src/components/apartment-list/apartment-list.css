@@ -1,4 +1,6 @@
 .apartments {
-    padding: var(--spacing-large);
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--spacing-medium);
 }
 

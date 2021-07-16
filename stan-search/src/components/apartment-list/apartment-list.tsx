@@ -4,7 +4,7 @@ import './apartment-list.css';
 import { Apartment } from "../apartment/apartment";
 
 /**
- * Apartment list
+ * PriceProps list
  */
 export const ApartmentList = function DashboardComponent(props: ApartmentListProps) {
     const { apartments } = props

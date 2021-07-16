@@ -1,0 +1,18 @@
+.links {
+    display: flex;
+    align-items: center;
+}
+
+.link-available {
+    margin-right: var(--spacing-small);
+}
+
+.link-unavailable {
+    margin-right: var(--spacing-small);
+    background-color: var(--color-warning);
+}
+
+.link {
+    display: flex;
+    width: var(--spacing-large);
+}

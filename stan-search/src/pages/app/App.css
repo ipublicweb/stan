@@ -9,6 +9,7 @@
   background-color: var(--color-background);
   box-shadow: 1px 1px 5px 5px var(--color-background-filters);
   margin: var(--spacing-medium);
+  overflow: auto;
 }
 
 :root {
@@ -17,6 +18,8 @@
   --color-background-filters: rgb(252,232,230);
   --color-background-apartments: rgb(245,247,247);
   --color-title: rgb(24,142,236);
+  --color-important: red;
+  --color-warning: rgb(250,180,180);
 
   --spacing-atomic: 1px;
   --spacing-border: 2px;
@@ -27,6 +30,7 @@
   --spacing-big: 32px;
   --spacing-huge: 64px;
 
+  --font-tiny: 10px;
   --font-small: 12px;
   --font-medium: 16px;
   --font-large: 20px;
@@ -35,7 +39,7 @@
 .header {
   display: flex;
   justify-content: center;
-  padding: var(--spacing-huge);
+  padding: var(--spacing-small);
   font-size: var(--font-large);
   color: var(--color-title);
 }
