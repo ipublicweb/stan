@@ -2,6 +2,7 @@ import { AgencyLinksProps } from "./agency-links.props";
 import React from "react";
 import './agency-links.css';
 import CityExpert from "../../assets/svg/cityexpert.svg";
+import CetriZida from "../../assets/svg/cetriZida.png";
 import NoAgency from "../../assets/svg/noAgency.svg";
 import { Integrations } from "../../models/enumerations/Integrations";
 import { AgencyLink } from "../../models/agency-link";
@@ -32,7 +33,7 @@ export const AgencyLinks = function AgencyLinksComponent(props: AgencyLinksProps
 const createLink = (link: AgencyLink) => {
     const logoImage = getLogoImage(link.integration);
 
-    return <a href={link.link} target="_blank">
+    return <a href={link.link} target="_blank" rel="noreferrer">
         <div className={"link"}>
             <img src={logoImage} alt="Agency link"/>
         </div>
@@ -43,6 +44,8 @@ const getLogoImage = (integration: Integrations) => {
     switch (integration) {
         case Integrations.CITY_EXPERT:
             return CityExpert;
+        case Integrations.CETRI_ZIDA:
+            return CetriZida;
         default:
             return NoAgency;
     }

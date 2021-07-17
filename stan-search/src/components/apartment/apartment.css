@@ -10,14 +10,20 @@
 
 .details {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-around;
+    padding-left: var(--spacing-tiny);
+    padding-right: var(--spacing-tiny);
 }
 
 .row {
     display: flex;
+    flex: 1;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    word-break: break-all;
 }
 
 .street {
@@ -36,14 +42,15 @@
     font-weight: bold;
 }
 
-.price {
-    font-size: var(--font-medium);
-}
-
 .spacer {
     width: var(--spacing-small);
 }
 
 .polygons {
     font-size: var(--font-tiny);
+}
+
+.createDate {
+    font-size: var(--font-small);
+    color: var(--color-important);
 }

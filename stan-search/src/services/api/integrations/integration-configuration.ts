@@ -1,10 +1,15 @@
+/*
+ * Configure available integrations
+ *
+ **/
 
-export const INTEGRATION_VERSION = 1;
-
-export const CITY_EXPERT_INTEGRATION_ENABLED = true;
+// CITY_EXPERT
+export const CITY_EXPERT_INTEGRATION_ENABLED = false;
 export const CITY_EXPERT_INTEGRATION_MOCKED = true;
 
-
+// 4-ZIDA
+export const CETRI_ZIDA_INTEGRATION_ENABLED = true;
+export const CETRI_ZIDA_INTEGRATION_MOCKED = false;
 /*
  * CORS hack Resources
  *

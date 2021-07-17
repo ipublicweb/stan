@@ -15,4 +15,5 @@
 .link {
     display: flex;
     width: var(--spacing-large);
+    height: var(--spacing-large);
 }

@@ -3,22 +3,22 @@ import React, { useState } from "react";
 import './dashboard.css';
 import { ApartmentList } from "../apartment-list/apartment-list";
 import { Apartment, ApartmentSearchParams } from "../../models";
-import { IntegrationServices } from "../../services/api/integrations/integration-services";
+import { IntegrationManager } from "../../services/api/integrations/integration-manager";
 import { Button } from "@material-ui/core";
 
 const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
-    50 * 1000,
-    100 * 1000,
+    75 * 1000,
+    115 * 1000,
 );
 
 /**
  * Dashboard
  */
 export const Dashboard = function DashboardComponent(props: DashboardProps) {
-    const [ getApartments, setApartments ] = useState<Apartment[]>([])
+    const [ apartments, setApartments ] = useState<Apartment[]>([])
 
     const onSearch = () => {
-        IntegrationServices.cityExpert.findApartments(APARTMENT_SEARCH_PARAMS)
+        IntegrationManager.findApartments(APARTMENT_SEARCH_PARAMS)
             .then(apartments => {
                 setApartments(apartments)
             })
@@ -30,6 +30,7 @@ export const Dashboard = function DashboardComponent(props: DashboardProps) {
                 onClick={onSearch}>
             Search
         </Button>
-        <ApartmentList apartments={getApartments}/>
+        <div>Total apartments: {apartments.length}</div>
+        <ApartmentList apartments={apartments}/>
     </div>
 }

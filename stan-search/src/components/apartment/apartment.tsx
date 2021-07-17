@@ -27,6 +27,7 @@ export const Apartment = function ApartmentComponent(props: ApartmentProps) {
             </div>
             <div className={"row"}>
                 <AgencyLinks agencyLinks={apartment.agencyLinks}/>
+                <div className={"createDate"}>created: {apartment.creationDate}</div>
             </div>
         </div>
         <Score apartment={apartment}/>

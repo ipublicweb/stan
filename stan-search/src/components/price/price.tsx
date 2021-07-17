@@ -1,6 +1,7 @@
 import { PriceProps } from "./price.props";
 import React from "react";
 import './price.css';
+import { NOT_AVAILABLE } from "../../utils/general-utils";
 
 /**
  * Price component
@@ -8,9 +9,12 @@ import './price.css';
 export const Price = function PriceComponent(props: PriceProps) {
     const { apartment } = props
 
+    const price = apartment.price ? apartment.price.toLocaleString() : NOT_AVAILABLE;
+    const pricePerSize = apartment.pricePerSize ? apartment.pricePerSize.toLocaleString() : NOT_AVAILABLE;
+
     return <div className={"priceContainer"}>
-        <div className={"price"}>{apartment.price.toLocaleString()}</div>
-        <div className={"pricePerSize"}>{apartment.pricePerSize.toLocaleString()}</div>
+        <div className={"price"}>{price}</div>
+        <div className={"pricePerSize"}>{pricePerSize}</div>
         <div className={"size"}>{apartment.size}m2</div>
     </div>
 }

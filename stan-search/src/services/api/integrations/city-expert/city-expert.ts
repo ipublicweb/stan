@@ -3,7 +3,7 @@ import { Apartment, ApartmentSearchParams } from "../../../../models";
 import axios from "axios";
 import { City, Structure } from "./constants";
 import { CITY_EXPERT_INTEGRATION_ENABLED, CITY_EXPERT_INTEGRATION_MOCKED } from "../integration-configuration";
-import { API_SEARCH_MOCK } from "./mock-data";
+import { API_SEARCH_MOCK } from "./mock-response";
 import { Integrations } from "../../../../models/enumerations/Integrations";
 import { AgencyLink } from "../../../../models/agency-link";
 
@@ -23,7 +23,7 @@ export class CityExpert implements IntegrationApi {
             }
 
             if (CITY_EXPERT_INTEGRATION_MOCKED) {
-                const apartments = this.mapDataToApartments(API_SEARCH_MOCK);
+                const apartments = this.mapToApartments(API_SEARCH_MOCK.data.result);
                 resolve(apartments)
                 return;
             }
@@ -34,14 +34,13 @@ export class CityExpert implements IntegrationApi {
                     'Access-Control-Allow-Origin': '*',
                 },
             }).then(response => {
-                const apartments = this.mapDataToApartments(response);
+                const apartments = this.mapToApartments(response.data.result);
                 resolve(apartments)
             })
         })
     }
 
-    mapDataToApartments(response: any): Apartment[] {
-        const result = response.data.result;
+    mapToApartments(result: any): Apartment[] {
         return result.map((data: any) => {
 
             // parse floor data
@@ -49,8 +48,10 @@ export class CityExpert implements IntegrationApi {
             const floor = floorData.length > 0 ? Number.parseInt(floorData[0]) : -1;
             const floorsInBuilding = floorData.length > 1 ? Number.parseInt(floorData[1]) : -1;
 
-            const apartment =  new Apartment(
+            const apartment =  new Apartment();
+            apartment.setSearchData(
                 data.propId,
+                data.firstPublished,
                 data.street,
                 data.size,
                 data.price,
@@ -61,13 +62,13 @@ export class CityExpert implements IntegrationApi {
                 Integrations.CITY_EXPERT,
             );
 
-            apartment.agencyLinks.push(this.constructLinkToAgencySite(apartment));
+            apartment.agencyLinks.push(this.constructLinkToAgencySite(apartment, data));
 
             return apartment
         })
     }
 
-    constructLinkToAgencySite(apartment: Apartment): AgencyLink {
+    constructLinkToAgencySite(apartment: Apartment, data: any): AgencyLink {
         // @ts-ignore
         const structure = Structure[apartment.structure];
         const place = "-novi-sad";

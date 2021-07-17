@@ -5,9 +5,8 @@ export interface IntegrationApi {
 
     findApartments(params: ApartmentSearchParams): Promise<Apartment[]>
 
-    mapDataToApartments(response: any): Apartment[]
+    mapToApartments(result: any): Apartment[]
 
-    constructLinkToAgencySite(apartment: Apartment): AgencyLink
+    constructLinkToAgencySite(apartment: Apartment, data: any): AgencyLink
 
-    constructSearchParams(params: ApartmentSearchParams): object
 }
