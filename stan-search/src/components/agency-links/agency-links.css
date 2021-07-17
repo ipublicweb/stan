@@ -3,16 +3,19 @@
     align-items: center;
 }
 
+.link {
+    display: flex;
+    flex-direction: row;
+}
+
 .link-available {
-    margin-right: var(--spacing-small);
 }
 
 .link-unavailable {
-    margin-right: var(--spacing-small);
     background-color: var(--color-warning);
 }
 
-.link {
+.link-image {
     display: flex;
     width: var(--spacing-large);
     height: var(--spacing-large);

@@ -1,10 +1,23 @@
-
 .dashboard {
     text-align: center;
     color: var(--color-primary);
 }
 
-.searchButton {
-    width: 70px;
-    height: 40px;
+.search-info {
+    font-size: var(--font-small);
+    padding: var(--spacing-small);
+    word-break: break-all;
 }
+
+.search-integrations {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: var(--color-title);
+}
+
+.search-counts {
+    font-weight: bold;
+    margin-right: var(--spacing-small);
+}
+

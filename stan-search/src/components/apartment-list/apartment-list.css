@@ -1,6 +1,6 @@
 .apartments {
     display: flex;
     flex-wrap: wrap;
-    padding: var(--spacing-medium);
+    justify-content: center;
 }
 

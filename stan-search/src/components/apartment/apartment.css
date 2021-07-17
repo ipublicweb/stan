@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: var(--spacing-tiny);
+    padding: var(--spacing-tiny) 0px;
     border-style: groove;
     background-color: var(--color-background-apartments);
 }
@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: space-around;
     padding-left: var(--spacing-tiny);
-    padding-right: var(--spacing-tiny);
+    padding-right: var(--spacing-small);
 }
 
 .row {
@@ -50,7 +50,7 @@
     font-size: var(--font-tiny);
 }
 
-.createDate {
+.create-date {
     font-size: var(--font-small);
     color: var(--color-important);
 }

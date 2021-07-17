@@ -84,7 +84,7 @@ export class CityExpert implements IntegrationApi {
             cityId: City.NOVI_SAD,
             rentOrSale: "s",
             currentPage: 1,
-            resultsPerPage: params.maxResultCount,
+            resultsPerPage: params.maxResultsPerIntegration,
             floor: [],
             avFrom: false,
             underConstruction: false,

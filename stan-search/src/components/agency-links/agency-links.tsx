@@ -15,7 +15,7 @@ export const AgencyLinks = function AgencyLinksComponent(props: AgencyLinksProps
 
     return <div className={"links"}>
         {agencyLinks.map(link => {
-            return <div key={link.id}>
+            return <div className={"link"} key={link.id}>
                 {link.available ?
                     <div className={"link-available"}>
                         {createLink(link)}
@@ -34,7 +34,7 @@ const createLink = (link: AgencyLink) => {
     const logoImage = getLogoImage(link.integration);
 
     return <a href={link.link} target="_blank" rel="noreferrer">
-        <div className={"link"}>
+        <div className={"link-image"}>
             <img src={logoImage} alt="Agency link"/>
         </div>
     </a>

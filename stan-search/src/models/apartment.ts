@@ -44,6 +44,13 @@ export class Apartment {
     }
 }
 
+export const APARTMENT_COMPARATOR = (a: Apartment, b: Apartment) => {
+    return b.score.localeCompare(a.score, undefined, {
+        numeric: true,
+        sensitivity: 'base'
+    });
+}
+
 const formatDate = (date: string) => {
     if (date) {
         return (new Date(date)).toLocaleDateString();

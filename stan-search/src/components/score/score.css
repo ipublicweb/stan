@@ -5,5 +5,9 @@
     justify-content: center;
     padding: var(--spacing-small);
     color: var(--color-important);
+
+    border-left: var(--spacing-atomic);
+    border-left-color: var(--color-primary);
+    border-left-style: solid;
 }
 

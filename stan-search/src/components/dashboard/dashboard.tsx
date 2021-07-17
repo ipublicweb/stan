@@ -2,9 +2,10 @@ import { DashboardProps } from "./dashboard.props";
 import React, { useState } from "react";
 import './dashboard.css';
 import { ApartmentList } from "../apartment-list/apartment-list";
-import { Apartment, ApartmentSearchParams } from "../../models";
+import { ApartmentSearchParams } from "../../models";
 import { IntegrationManager } from "../../services/api/integrations/integration-manager";
 import { Button } from "@material-ui/core";
+import { ApartmentSearchResult } from "../../models/apartment-search-result";
 
 const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
     75 * 1000,
@@ -15,22 +16,33 @@ const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
  * Dashboard
  */
 export const Dashboard = function DashboardComponent(props: DashboardProps) {
-    const [ apartments, setApartments ] = useState<Apartment[]>([])
+    const [ apartmentsResult, setApartmentsResult ] = useState<ApartmentSearchResult>()
 
     const onSearch = () => {
         IntegrationManager.findApartments(APARTMENT_SEARCH_PARAMS)
-            .then(apartments => {
-                setApartments(apartments)
+            .then(result => {
+                setApartmentsResult(result)
             })
     }
 
     return <div className={"dashboard"}>
-        <Button variant="contained"
-                color={"primary"}
-                onClick={onSearch}>
-            Search
-        </Button>
-        <div>Total apartments: {apartments.length}</div>
-        <ApartmentList apartments={apartments}/>
+        {apartmentsResult ?
+            <div className={"search-info"}>
+                <div>Search params: {JSON.stringify(APARTMENT_SEARCH_PARAMS)}</div>
+                <div className={"search-integrations"}>
+                    <div>CityExpert apartments: <span className={"search-counts"}>{apartmentsResult.cityExpertApartmentsCount}</span></div>
+                    <div>4Zida apartments: <span className={"search-counts"}>{apartmentsResult.cetriZidaApartmentsCount}</span></div>
+                </div>
+            </div>
+            : <Button variant="contained"
+                      color={"primary"}
+                      onClick={onSearch}>
+                Search
+            </Button>
+        }
+        {apartmentsResult ?
+            <ApartmentList apartments={apartmentsResult.allApartments}/>
+            : undefined
+        }
     </div>
 }

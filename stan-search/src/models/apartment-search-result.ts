@@ -4,10 +4,19 @@ import { ApartmentSearchParams } from "./apartment-search-params";
 export class ApartmentSearchResult {
 
     apartmentSearchParams: ApartmentSearchParams
+    allApartments: Apartment[];
+    cityExpertApartmentsCount: number;
+    cetriZidaApartmentsCount: number;
 
-    allApartments: Apartment[] = [];
+    constructor(apartmentSearchParams: ApartmentSearchParams,
+                cityExpertApartments: Apartment[],
+                cetriZidaApartments: Apartment[]) {
 
-    constructor(apartmentSearchParams: ApartmentSearchParams) {
         this.apartmentSearchParams = apartmentSearchParams;
+
+        this.cityExpertApartmentsCount = cityExpertApartments.length;
+        this.cetriZidaApartmentsCount = cetriZidaApartments.length;
+
+        this.allApartments = [ ...cityExpertApartments, ...cetriZidaApartments ];
     }
 }

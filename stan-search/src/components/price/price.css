@@ -1,16 +1,16 @@
-.priceContainer {
+.price-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-small);
+    width: var(--spacing-huge);
 }
 
 .price {
     color: var(--color-title);
 }
 
-.pricePerSize {
+.price-per-size {
     font-weight: bold;
 }
 

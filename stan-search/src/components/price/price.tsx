@@ -12,9 +12,9 @@ export const Price = function PriceComponent(props: PriceProps) {
     const price = apartment.price ? apartment.price.toLocaleString() : NOT_AVAILABLE;
     const pricePerSize = apartment.pricePerSize ? apartment.pricePerSize.toLocaleString() : NOT_AVAILABLE;
 
-    return <div className={"priceContainer"}>
+    return <div className={"price-container"}>
         <div className={"price"}>{price}</div>
-        <div className={"pricePerSize"}>{pricePerSize}</div>
+        <div className={"price-per-size"}>{pricePerSize}</div>
         <div className={"size"}>{apartment.size}m2</div>
     </div>
 }
