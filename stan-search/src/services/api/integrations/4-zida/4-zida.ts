@@ -1,4 +1,4 @@
-import { IntegrationApi } from "../integration-api";
+import { getPagesToFetch, IntegrationApi } from "../integration-api";
 import { Apartment, ApartmentSearchParams } from "../../../../models";
 import axios from "axios";
 import {
@@ -33,19 +33,41 @@ export class CetriZida implements IntegrationApi {
                 return;
             }
 
-            axios.get(API_BASE_URL + `/v6/premium?for=sale&priceFrom=${params.priceFrom}&priceTo=${params.priceTo}&type=apartment&placeIds%5B%5D=${City.NOVI_SAD}`)
+            axios.get(API_BASE_URL + `/v6/premium?for=sale&priceFrom=${params.priceFrom}&priceTo=${params.priceTo}&type=apartment&m2From=${params.m2From}&placeIds%5B%5D=${City.NOVI_SAD}`)
                 .then(response => {
                     const apartmentsPremium = this.mapToApartments(response.data);
 
-                    axios.get(API_BASE_URL + `/v6/search/apartments?for=sale&priceFrom=${params.priceFrom}&priceTo=${params.priceTo}&page=${1}&placeIds%5B%5D=${City.NOVI_SAD}`)
-                        .then(response => {
-                            const apartments = this.mapToApartments(response.data.ads);
-                            const totalResults = response.data.total;
-                            console.info({ totalResults })
-                            resolve([ ...apartmentsPremium, ...apartments ])
+                    this.findApartmentsOnPage(params, 1)
+                        .then(firstResponse => {
+                            const apartments = this.mapToApartments(firstResponse.data.ads);
+                            apartments.push(...apartmentsPremium);
+
+                            const totalResultCount = firstResponse.data.total;
+                            const pagesToFetch = getPagesToFetch(totalResultCount, this.getMaxResultsPerPage());
+                            if (pagesToFetch.length) {
+                                Promise.all(pagesToFetch.map(page => this.findApartmentsOnPage(params, page)))
+                                    .then(responses => {
+                                            for (const r of responses) {
+                                                apartments.push(...this.mapToApartments(r.data.ads));
+                                            }
+                                            resolve(apartments)
+                                        }
+                                    )
+                            } else {
+                                resolve(apartments)
+                            }
                         })
                 })
         })
+    }
+
+    findApartmentsOnPage(params: ApartmentSearchParams, page: number): Promise<any> {
+        return axios.get(API_BASE_URL +
+            `/v6/search/apartments?for=sale&priceFrom=${params.priceFrom}&priceTo=${params.priceTo}&page=${page}&m2From=${params.m2From}&placeIds%5B%5D=${City.NOVI_SAD}`);
+    }
+
+    getMaxResultsPerPage(): number {
+        return 20;
     }
 
     mapToApartments(result: any): Apartment[] {

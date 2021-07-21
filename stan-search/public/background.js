@@ -1,3 +1,4 @@
+const STAN_REFERAL_HEADER = "stan-referal";
 const REQUEST_HEADERS_TO_REPLACE = ["referer", "origin"];
 
 function replaceHeader(details, header, newHeaderValue) {
@@ -17,7 +18,7 @@ function replaceHeader(details, header, newHeaderValue) {
 }
 
 chrome.webRequest.onBeforeSendHeaders.addListener(function(details){
-    const newHeaderValue = "https://cityexpert.rs";
+    const newHeaderValue = details.requestHeaders[STAN_REFERAL_HEADER];
 
     REQUEST_HEADERS_TO_REPLACE.forEach(header => {
         replaceHeader(details, header, newHeaderValue)

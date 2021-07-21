@@ -10,6 +10,7 @@ import { ApartmentSearchResult } from "../../models/apartment-search-result";
 const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
     75 * 1000,
     115 * 1000,
+    70,
 );
 
 /**

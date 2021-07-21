@@ -1,11 +1,11 @@
-import { IntegrationApi } from "../integration-api";
+import { getAxiosConfig, getPagesToFetch, IntegrationApi } from "../integration-api";
 import { Apartment, ApartmentSearchParams } from "../../../../models";
-import axios from "axios";
 import { City, Structure } from "./constants";
 import { CITY_EXPERT_INTEGRATION_ENABLED, CITY_EXPERT_INTEGRATION_MOCKED } from "../integration-configuration";
 import { API_SEARCH_MOCK } from "./mock-response";
 import { Integrations } from "../../../../models/enumerations/Integrations";
 import { AgencyLink } from "../../../../models/agency-link";
+import axios from "axios";
 
 const BASE_URL = "https://cityexpert.rs";
 
@@ -28,16 +28,34 @@ export class CityExpert implements IntegrationApi {
                 return;
             }
 
-            const data = this.constructSearchParams(params)
-            axios.post(BASE_URL + `/api/Search/`, data, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                },
-            }).then(response => {
-                const apartments = this.mapToApartments(response.data.result);
-                resolve(apartments)
-            })
+            this.findApartmentsOnPage(params, 1)
+                .then(firstResponse => {
+                    const apartments = this.mapToApartments(firstResponse.data.result);
+                    const totalResultCount = firstResponse.data.info.documentCount;
+                    const pagesToFetch = getPagesToFetch(totalResultCount, this.getMaxResultsPerPage());
+                    if (pagesToFetch.length) {
+                        Promise.all(pagesToFetch.map(page => this.findApartmentsOnPage(params, page)))
+                            .then(responses => {
+                                    for (const r of responses) {
+                                        apartments.push(...this.mapToApartments(r.data.result));
+                                    }
+                                    resolve(apartments)
+                                }
+                            )
+                    } else {
+                        resolve(apartments)
+                    }
+                })
         })
+    }
+
+    findApartmentsOnPage(params: ApartmentSearchParams, page: number): Promise<any> {
+        const data = this.constructSearchParams(params, page)
+        return axios.post(BASE_URL + `/api/Search/`, data, getAxiosConfig(BASE_URL))
+    }
+
+    getMaxResultsPerPage(): number {
+        return 60;
     }
 
     mapToApartments(result: any): Apartment[] {
@@ -48,7 +66,7 @@ export class CityExpert implements IntegrationApi {
             const floor = floorData.length > 0 ? Number.parseInt(floorData[0]) : -1;
             const floorsInBuilding = floorData.length > 1 ? Number.parseInt(floorData[1]) : -1;
 
-            const apartment =  new Apartment();
+            const apartment = new Apartment();
             apartment.setSearchData(
                 data.propId,
                 data.firstPublished,
@@ -78,13 +96,13 @@ export class CityExpert implements IntegrationApi {
         return new AgencyLink(link, true, Integrations.CITY_EXPERT);
     }
 
-    constructSearchParams(params: ApartmentSearchParams) {
+    constructSearchParams(params: ApartmentSearchParams, page: number) {
         return {
             ptId: [],
             cityId: City.NOVI_SAD,
             rentOrSale: "s",
-            currentPage: 1,
-            resultsPerPage: params.maxResultsPerIntegration,
+            currentPage: page,
+            resultsPerPage: this.getMaxResultsPerPage(),
             floor: [],
             avFrom: false,
             underConstruction: false,
@@ -95,7 +113,7 @@ export class CityExpert implements IntegrationApi {
             petsArray: [],
             minPrice: params.priceFrom,
             maxPrice: params.priceTo,
-            minSize: null,
+            minSize: params.m2From,
             maxSize: null,
             polygonsArray: [],
             searchSource: "regular",
