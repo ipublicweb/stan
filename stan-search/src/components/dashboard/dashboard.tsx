@@ -2,7 +2,7 @@ import { DashboardProps } from "./dashboard.props";
 import React, { useState } from "react";
 import './dashboard.css';
 import { ApartmentList } from "../apartment-list/apartment-list";
-import { ApartmentSearchParams } from "../../models";
+import { ApartmentSearchParams, LOCATION } from "../../models";
 import { IntegrationManager } from "../../services/api/integrations/integration-manager";
 import { Button } from "@material-ui/core";
 import { ApartmentSearchResult } from "../../models/apartment-search-result";
@@ -11,6 +11,9 @@ const APARTMENT_SEARCH_PARAMS = new ApartmentSearchParams(
     75 * 1000,
     115 * 1000,
     70,
+    true,
+    true,
+    [LOCATION.BULEVAR_OSLOBODJENJA, LOCATION.BANATIC, LOCATION.ROTKVARIJA, LOCATION.SAJMISTE, LOCATION.LIMAN]
 );
 
 /**

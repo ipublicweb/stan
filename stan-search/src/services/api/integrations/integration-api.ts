@@ -1,4 +1,4 @@
-import { Apartment, ApartmentSearchParams } from "../../../models";
+import { Apartment, ApartmentSearchParams, LOCATION } from "../../../models";
 import { AgencyLink } from "../../../models/agency-link";
 import { AxiosRequestConfig } from "axios";
 
@@ -13,6 +13,10 @@ export interface IntegrationApi {
     mapToApartments(result: any): Apartment[]
 
     constructLinkToAgencySite(apartment: Apartment, data: any): AgencyLink
+
+    constructSearchParams(params: ApartmentSearchParams, page: number): any
+
+    mapLocationsParam(location: LOCATION): string
 }
 
 // x-referal is custom header which value will be placed to referal and origin headers
@@ -28,8 +32,5 @@ export const getAxiosConfig = (baseUrl: string) => {
 
 export const getPagesToFetch = (totalResultCount: number, maxResultsPerPage: number) => {
     const totalPagesCount = Math.ceil(totalResultCount / maxResultsPerPage);
-    console.info({totalPagesCount})
-    const totalPagesCountTemp = totalPagesCount > 3 ? 3 : totalPagesCount
-    console.info({totalPagesCountTemp})
-    return Array.from(Array(totalPagesCountTemp - 1).keys()).map(i => i + 2);
+    return Array.from(Array(totalPagesCount - 1).keys()).map(i => i + 2);
 }

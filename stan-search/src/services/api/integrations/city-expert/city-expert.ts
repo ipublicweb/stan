@@ -1,5 +1,5 @@
 import { getAxiosConfig, getPagesToFetch, IntegrationApi } from "../integration-api";
-import { Apartment, ApartmentSearchParams } from "../../../../models";
+import { Apartment, ApartmentSearchParams, LOCATION } from "../../../../models";
 import { City, Structure } from "./constants";
 import { CITY_EXPERT_INTEGRATION_ENABLED, CITY_EXPERT_INTEGRATION_MOCKED } from "../integration-configuration";
 import { API_SEARCH_MOCK } from "./mock-response";
@@ -97,6 +97,7 @@ export class CityExpert implements IntegrationApi {
     }
 
     constructSearchParams(params: ApartmentSearchParams, page: number) {
+        const locations = params.locations.map(l => this.mapLocationsParam(l));
         return {
             ptId: [],
             cityId: City.NOVI_SAD,
@@ -115,7 +116,7 @@ export class CityExpert implements IntegrationApi {
             maxPrice: params.priceTo,
             minSize: params.m2From,
             maxSize: null,
-            polygonsArray: [],
+            polygonsArray: locations,
             searchSource: "regular",
             sort: "datedsc",
             structure: [],
@@ -146,6 +147,22 @@ export class CityExpert implements IntegrationApi {
             smokingAllowed: null,
             aptEquipment: [],
             site: "SR"
+        }
+    }
+
+    mapLocationsParam(location: LOCATION): string {
+        switch (location) {
+            case LOCATION.BULEVAR_OSLOBODJENJA:
+                return "";
+            case LOCATION.BANATIC:
+                return "Banatić";
+            case LOCATION.ROTKVARIJA:
+                return "Rotkvarija";
+            case LOCATION.SAJMISTE:
+                return "Sajmište";
+            case LOCATION.LIMAN:
+            default:
+                return "Liman";
         }
     }
 }

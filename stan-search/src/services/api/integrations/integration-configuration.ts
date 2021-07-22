@@ -5,11 +5,11 @@
 
 // CITY_EXPERT
 export const CITY_EXPERT_INTEGRATION_ENABLED = true;
-export const CITY_EXPERT_INTEGRATION_MOCKED = true;
+export const CITY_EXPERT_INTEGRATION_MOCKED = false;
 
 // 4-ZIDA
 export const CETRI_ZIDA_INTEGRATION_ENABLED = true;
-export const CETRI_ZIDA_INTEGRATION_MOCKED = true;
+export const CETRI_ZIDA_INTEGRATION_MOCKED = false;
 /*
  * CORS hack Resources
  *
