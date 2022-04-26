@@ -2,22 +2,24 @@ import { Integrations } from "./enumerations/Integrations";
 import { v4 as uuidv4 } from "uuid";
 import { MatchedPredictors } from "./enumerations/MatchedPredictors";
 import { AgencyLink } from "./agency-link";
-import { NOT_AVAILABLE } from "../utils/general-utils";
+import { isNotNil, NOT_AVAILABLE, UNKNOWN_NUMBER } from "../utils/general-utils";
 
 const MAX_STREET_LENGTH = 28;
 
 export class Apartment {
     id = uuidv4();
+    manualId: string = NOT_AVAILABLE;
     agencyId: string = NOT_AVAILABLE;
     creationDate: string = NOT_AVAILABLE;
     street: string = NOT_AVAILABLE;
-    size: number = -1;
-    price: number = -1;
-    pricePerSize: number = -1;
+    size: number = UNKNOWN_NUMBER;
+    price: number = UNKNOWN_NUMBER;
+    pricePerSize: number = UNKNOWN_NUMBER;
     structure: string = NOT_AVAILABLE;
-    floor: number = -1;
-    floorsInBuilding: number = -1;
+    floor: number = UNKNOWN_NUMBER;
+    floorsInBuilding: number = UNKNOWN_NUMBER;
     polygons: any = [];
+    description: string = NOT_AVAILABLE;
     integration: Integrations = Integrations.ALL;
 
     agencyLinks: AgencyLink[] = [];
@@ -29,18 +31,44 @@ export class Apartment {
     setSearchData(agencyId: string, creationDate: string, street: string,
                   size: number, price: number, structure: string,
                   floor: number, floorsInBuilding: number, polygons: any,
-                  integration: Integrations) {
-        this.agencyId = agencyId;
-        this.creationDate = formatDate(creationDate)
-        this.street = createShortStreet(street);
-        this.size = size;
-        this.price = price;
-        this.pricePerSize = calculatePricePerSize(price, size);
-        this.structure = structure;
-        this.floor = floor;
-        this.floorsInBuilding = floorsInBuilding;
-        this.polygons = polygons;
-        this.integration = integration;
+                  description: string, integration: Integrations) {
+        this.manualId = "manual-" + integration + "-" + price + "-" + structure + "-" + size + "-" + floor;
+        if (isNotNil(agencyId)) {
+            this.agencyId = agencyId;
+        }
+        if (isNotNil(creationDate)) {
+            this.creationDate = formatDate(creationDate)
+        }
+        if (isNotNil(street)) {
+            this.street = createShortStreet(street);
+        }
+        if (isNotNil(size)) {
+            this.size = size;
+        }
+        if (isNotNil(price)) {
+            this.price = price;
+        }
+        if (isNotNil(price) && isNotNil(size)) {
+            this.pricePerSize = calculatePricePerSize(price, size);
+        }
+        if (isNotNil(structure)) {
+            this.structure = structure;
+        }
+        if (isNotNil(floor)) {
+            this.floor = floor;
+        }
+        if (isNotNil(floorsInBuilding)) {
+            this.floorsInBuilding = floorsInBuilding;
+        }
+        if (isNotNil(polygons)) {
+            this.polygons = polygons;
+        }
+        if (isNotNil(description)) {
+            this.description = description.toLowerCase();
+        }
+        if (isNotNil(integration)) {
+            this.integration = integration;
+        }
     }
 }
 

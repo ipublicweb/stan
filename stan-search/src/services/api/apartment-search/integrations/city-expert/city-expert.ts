@@ -1,11 +1,12 @@
 import { getAxiosConfig, getPagesToFetch, IntegrationApi } from "../integration-api";
-import { Apartment, ApartmentSearchParams, LOCATION } from "../../../../models";
+import { Apartment, ApartmentSearchParams, LOCATION } from "../../../../../models";
 import { City, Structure } from "./constants";
 import { CITY_EXPERT_INTEGRATION_ENABLED, CITY_EXPERT_INTEGRATION_MOCKED } from "../integration-configuration";
 import { API_SEARCH_MOCK } from "./mock-response";
-import { Integrations } from "../../../../models/enumerations/Integrations";
-import { AgencyLink } from "../../../../models/agency-link";
+import { Integrations } from "../../../../../models/enumerations/Integrations";
+import { AgencyLink } from "../../../../../models/agency-link";
 import axios from "axios";
+import { UNKNOWN_NUMBER } from "../../../../../utils/general-utils";
 
 const BASE_URL = "https://cityexpert.rs";
 
@@ -61,10 +62,24 @@ export class CityExpert implements IntegrationApi {
     mapToApartments(result: any): Apartment[] {
         return result.map((data: any) => {
 
-            // parse floor data
-            const floorData: string = data.floor.split("_");
-            const floor = floorData.length > 0 ? Number.parseInt(floorData[0]) : -1;
-            const floorsInBuilding = floorData.length > 1 ? Number.parseInt(floorData[1]) : -1;
+            let floor = UNKNOWN_NUMBER;
+            let floorsInBuilding = UNKNOWN_NUMBER;
+            switch (data.floor) {
+                case "PR":
+                case "VPR":
+                    floor = 0;
+                    break;
+                case "PTK":
+                    floor = 1;
+                    floorsInBuilding = 1;
+                    break;
+                default:
+                    // parse floor data
+                    const floorData: string = data.floor.split("_");
+                    floor = floorData.length > 0 ? Number.parseInt(floorData[0]) : UNKNOWN_NUMBER;
+                    floorsInBuilding = floorData.length > 1 ? Number.parseInt(floorData[1]) : UNKNOWN_NUMBER;
+            }
+            // console.warn("data: " + data.floor + " floor: " + floor + " floorsInBuilding: " + floorsInBuilding)
 
             const apartment = new Apartment();
             apartment.setSearchData(
@@ -77,6 +92,7 @@ export class CityExpert implements IntegrationApi {
                 floor,
                 floorsInBuilding,
                 data.polygons,
+                "",
                 Integrations.CITY_EXPERT,
             );
 

@@ -1,5 +1,5 @@
-import { Apartment, ApartmentSearchParams, LOCATION } from "../../../models";
-import { AgencyLink } from "../../../models/agency-link";
+import { Apartment, ApartmentSearchParams, LOCATION } from "../../../../models";
+import { AgencyLink } from "../../../../models/agency-link";
 import { AxiosRequestConfig } from "axios";
 
 export interface IntegrationApi {

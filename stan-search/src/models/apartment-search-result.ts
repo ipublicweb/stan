@@ -19,4 +19,8 @@ export class ApartmentSearchResult {
 
         this.allApartments = [ ...cityExpertApartments, ...cetriZidaApartments ];
     }
+
+    setAllApartments(filteredApartments: Apartment[]) {
+        this.allApartments = filteredApartments;
+    }
 }

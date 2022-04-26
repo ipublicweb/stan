@@ -1,11 +1,11 @@
 import { getPagesToFetch, IntegrationApi } from "../integration-api";
-import { Apartment, ApartmentSearchParams, LOCATION } from "../../../../models";
+import { Apartment, ApartmentSearchParams, LOCATION } from "../../../../../models";
 import axios from "axios";
 import {
     CETRI_ZIDA_INTEGRATION_ENABLED, CETRI_ZIDA_INTEGRATION_MOCKED,
 } from "../integration-configuration";
-import { Integrations } from "../../../../models/enumerations/Integrations";
-import { AgencyLink } from "../../../../models/agency-link";
+import { Integrations } from "../../../../../models/enumerations/Integrations";
+import { AgencyLink } from "../../../../../models/agency-link";
 import { API_SEARCH_MOCK, API_SEARCH_PREMIUM_MOCK } from "./mock-response";
 
 const BASE_URL = "https://www.4zida.rs";
@@ -76,6 +76,7 @@ export class CetriZida implements IntegrationApi {
 
     mapToApartments(result: any): Apartment[] {
         return result.map((data: any) => {
+            // console.warn("floor: " + data.floor + " floorsInBuilding: " + data.totalFloors)
 
             const structure = data.structureAbbreviation || data.roomCount || " stan"
             const structureClear = structure.replace(" stan", "");
@@ -91,6 +92,7 @@ export class CetriZida implements IntegrationApi {
                 data.floor,
                 data.totalFloors,
                 data.placeNames,
+                data.description100,
                 Integrations.CETRI_ZIDA,
             );
 

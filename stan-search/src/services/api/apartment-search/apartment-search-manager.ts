@@ -1,9 +1,21 @@
-import { CityExpert } from "./city-expert/city-expert";
+import { CityExpert } from "./integrations/city-expert/city-expert";
 import { Apartment, APARTMENT_COMPARATOR, ApartmentSearchParams } from "../../../models";
-import { CetriZida } from "./4-zida/4-zida";
+import { CetriZida } from "./integrations/4-zida/4-zida";
 import { ApartmentSearchResult } from "../../../models/apartment-search-result";
+import { FilterApi } from "./filters/filter-api";
+import { FilterIsGroundLevel } from "./filters/filter-is-ground-level";
+import { FilterIsLastFloor } from "./filters/filter-is-last-floor";
+import { FilterIsManualExcluded } from "./filters/filter-is-manual-excluded";
+import { FilterIsExcluded } from "./filters/filter-is-excluded";
 
-class IntegrationServicesManager {
+const FILTERS: FilterApi[] = [
+    new FilterIsManualExcluded(),
+    new FilterIsExcluded(),
+    new FilterIsGroundLevel(),
+    new FilterIsLastFloor(),
+];
+
+class ApartmentSearchManager {
 
     // Instances of all integrated resources
     private cityExpert = new CityExpert();
@@ -19,16 +31,34 @@ class IntegrationServicesManager {
                 const cetriZidaApartments = integrationResults[1];
 
                 const result = new ApartmentSearchResult(params, cityExpertApartments, cetriZidaApartments);
-                calculateScoresAndSort(result.allApartments);
+
+                const filteredApartments = filterApartments(params, result.allApartments);
+                result.setAllApartments(filteredApartments);
+
+                calculateScoresAndSortApartments(result.allApartments);
+
                 resolve(result);
             })
         })
     }
 }
 
-export const IntegrationManager = new IntegrationServicesManager();
+export const APARTMENT_SEARCH_MANAGER = new ApartmentSearchManager();
 
-const calculateScoresAndSort = (apartments: Apartment[]) => {
+const filterApartments = (params: ApartmentSearchParams, apartments: Apartment[]) => {
+    return apartments.filter(apartment => {
+        let notExcluded = true
+        for (const filter of FILTERS) {
+            if (filter.filterOut(params, apartment)) {
+                notExcluded = false;
+                break;
+            }
+        }
+        return notExcluded;
+    })
+}
+
+const calculateScoresAndSortApartments = (apartments: Apartment[]) => {
     apartments.forEach(apartment => {
         if (apartment.pricePerSize > 0) {
             apartment.score = PRICE_PER_SIZE_TO_SCORE(apartment.pricePerSize).toFixed(2);
